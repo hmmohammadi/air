@@ -1,2 +1,2 @@
-# air
-A python based QML application for monitoring Air Quality
+# AirQualityManagementPlan
+Qt QML Air Quality Management Plan
