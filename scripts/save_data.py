@@ -1,7 +1,7 @@
 import pandas as pd
 import sys
 import os
-from stats import Stats
+from .stats import Stats
 from datetime import date
 
 class Record:
@@ -45,7 +45,39 @@ class Record:
             today = date.today()
             path = os.path.join('/tmp', today.strftime("%b-%d-%Y")+"data.xlsx")
             
-            self.df.to_excel(path, index=False)
+            writer = pd.ExcelWriter(path, engine="xlsxwriter")
+            
+            # upperCase
+            self.df.columns = map(lambda x: str(x).upper(), self.df.columns)
+
+            self.df.to_excel(writer, sheet_name="gases")
+
+            
+
+            # Get the xlsxwriter workbook and worksheet objects.
+            workbook = writer.book
+            worksheet = writer.sheets['gases']
+
+            # Add a header format
+
+            header_format = workbook.add_format({
+                'bold': True,
+                'text_wrap': True,
+                'valign': 'top',
+                'fg_color': '#D7E4BC',
+                'border': 1})
+            
+            # Write the column headers with the defined format.
+            for col_num, val in enumerate(self.df.columns.values):
+                worksheet.write(0, col_num + 1, val, header_format)
+            
+            for col in self.df:
+                col_width = max(self.df[col].astype(str).map(len).max(), len(col))
+                col_idx = self.df.columns.get_loc(col)
+                writer.sheets['gases'].set_column(col_idx, col_idx+10, col_width)
+            
+            # worksheet.set
+            writer.save()
 
 
             pass
@@ -62,7 +94,7 @@ class Record:
 if __name__=="__main__":
     record = Record()
     record.save(0)
-    print(record.__str__())
-    print(sys.platform)
+    # print(record.__str__())
+    # print(sys.platform)
 
 
