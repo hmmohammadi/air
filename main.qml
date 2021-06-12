@@ -49,7 +49,17 @@ Window {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    console.log("co")
+                    console.log(air.cos)
+                    chart_temp.visible = false
+                    chart_co.visible = true
+                    chart_co2.visible = false
+                    chart_pm10.visible = false
+                    chart_hum.visible = false
+                    chart_pm25.visible = false
+                    chart_o3.visible = false
+                    chart_no2.visible = false
+                    chart_cho2.visible = false
+                    charts.visible = false
                 }
             }
 
@@ -65,7 +75,17 @@ Window {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    console.log("ch2o")
+                    console.log(air.cho2s)
+                    chart_temp.visible = false
+                    chart_co.visible = false
+                    chart_co2.visible = false
+                    chart_pm10.visible = false
+                    chart_hum.visible = false
+                    chart_pm25.visible = false
+                    chart_o3.visible = false
+                    chart_no2.visible = false
+                    chart_cho2.visible = true
+                    charts.visible = false
                 }
             }
         }
@@ -81,7 +101,17 @@ Window {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    console.log("co2")
+                    console.log(air.co2s)
+                    chart_temp.visible = false
+                    chart_co.visible = false
+                    chart_co2.visible = true
+                    chart_pm10.visible = false
+                    chart_hum.visible = false
+                    chart_pm25.visible = false
+                    chart_o3.visible = false
+                    chart_no2.visible = false
+                    chart_cho2.visible = false
+                    charts.visible = false
                 }
             }
         }
@@ -96,7 +126,17 @@ Window {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    console.log("humidity")
+                    console.log(air.hums)
+                    chart_temp.visible = false
+                    chart_co.visible = false
+                    chart_co2.visible = false
+                    chart_pm10.visible = false
+                    chart_hum.visible = true
+                    chart_pm25.visible = false
+                    chart_o3.visible = false
+                    chart_no2.visible = false
+                    chart_cho2.visible = false
+                    charts.visible = false
                 }
             }
         }
@@ -112,23 +152,44 @@ Window {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    console.log("no2")
+                    console.log(air.no2s)
+                    chart_temp.visible = false
+                    chart_co.visible = false
+                    chart_co2.visible = false
+                    chart_pm10.visible = false
+                    chart_hum.visible = false
+                    chart_pm25.visible = false
+                    chart_o3.visible = false
+                    chart_no2.visible = true
+                    chart_cho2.visible = false
+                    charts.visible = false
                 }
             }
         }
 
         TargetGasGaugeForm {
-            id: tVOC
+            id: pm1_0
             unit: "grades"
-            targetGasName: "TVOC"
-            targetGaz.maxValue: 3
+            targetGasName: "PM1.0"
+            targetGaz.maxValue: 500
             targetGaz.dialWidth: 6
             value: 0 //feeder.value + 4
 
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    console.log("TVOC")
+                    console.log(air.pm10s)
+                    //                    chart_line.chartData = ChartsData.pm10ChartData
+                    chart_temp.visible = false
+                    chart_co.visible = false
+                    chart_co2.visible = false
+                    chart_pm10.visible = true
+                    chart_hum.visible = false
+                    chart_pm25.visible = false
+                    chart_o3.visible = false
+                    chart_no2.visible = false
+                    chart_cho2.visible = false
+                    charts.visible = false
                 }
             }
         }
@@ -143,7 +204,17 @@ Window {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    console.log("o3")
+                    console.log(air.o3s)
+                    chart_temp.visible = false
+                    chart_co.visible = false
+                    chart_co2.visible = false
+                    chart_pm10.visible = false
+                    chart_hum.visible = false
+                    chart_pm25.visible = false
+                    chart_o3.visible = true
+                    chart_no2.visible = false
+                    chart_cho2.visible = false
+                    charts.visible = false
                 }
             }
 
@@ -159,7 +230,18 @@ Window {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    console.log("pm2.5")
+
+                    chart_temp.visible = false
+                    chart_co.visible = false
+                    chart_co2.visible = false
+                    chart_pm10.visible = false
+                    chart_hum.visible = false
+                    chart_pm25.visible = true
+                    chart_o3.visible = false
+                    chart_no2.visible = false
+                    chart_cho2.visible = false
+                    charts.visible = false
+
                 }
             }
         }
@@ -181,46 +263,288 @@ Window {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    console.log("Temprature")
+                    //                    console.log("Temprature")
+                    chart_temp.visible = true
+                    chart_co.visible = false
+                    chart_co2.visible = false
+                    chart_pm10.visible = false
+                    chart_hum.visible = false
+                    chart_pm25.visible = false
+                    chart_o3.visible = false
+                    chart_no2.visible = false
+                    chart_cho2.visible = false
+                    charts.visible = false
                 }
             }
 
         }
+        ///////////////////////////////  Charts ///////////////////////////////////////////
+        Chart {
+            id: charts
+            width: chart_width
+            visible: true
+            height: chart_height
+            chartType: 'line'
+            chartData: { return {
+                    labels:  ChartsData.show('time'),
+                    datasets: [{
+                            label: 'Temprature',
+                            fill: false,
+                            backgroundColor:  "rgba(220,220,220,0.2)",
+                            borderColor: 'rgba(128,192,255,255)',
+                            data: air.temps,
+                        }, {
+                            label: 'O3',
+                            fill: false,
+                            backgroundColor: "rgb(226, 137, 242)",
+                            borderColor: "rgb(226, 137, 242)",
+                            //                            borderDash: [2, 2],
+                            data: air.o3s,
+                        }, {
+                            label: 'PM2_5',
+                            backgroundColor:  "rgb(31, 141, 237)",
+                            borderColor:  "rgb(31, 141, 237)",
+                            data: air.pm25s,
+                            fill: false,
+                        }, {
+                            label: 'NO2',
+                            fill: false,
+                            backgroundColor: "rgb(133, 92, 248)",
+                            borderColor: "rgb(133, 92, 248)",
+                            //                            borderDash: [5, 5],
+                            data: air.no2s,
+                        }, {
+                            label: 'Co',
+                            fill: false,
+                            backgroundColor: "rgb(165, 166, 246)",
+                            borderColor:"rgb(165, 166, 246)",
+                            //                            borderDash: [5, 5],
+                            data: air.cos,
+                        }, {
+                            label: 'Humidity',
+                            fill: false,
+                            backgroundColor: "rgb(96, 125, 139)",
+                            borderColor: "rgb(96, 125, 139)",
+                            //                            borderDash: [5, 5],
+                            data: air.hums,
+                        }
+                        , {
+                            label: 'MP1.0',
+                            fill: false,
+                            backgroundColor: "rgb(66, 133, 244)",
+                            borderColor: "rgb(66, 133, 244)",
+                            //                            borderDash: [5, 5],
+                            data: air.pm10s,
+                        }, {
+                            label: 'COH2',
+                            fill: false,
+                            backgroundColor: "rgb(38, 50, 56)",
+                            borderColor: "rgb(38, 50, 56)",
+                            data: air.cho2s,
+                        }
+                    ]
+                }
+            }
+
+
+            chartOptions: {return {
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    title: {
+                        display: true,
+                        text: 'Gas Charts'
+                    },
+                    tooltips: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    hover: {
+                        mode: 'nearest',
+                        intersect: true
+                    },
+                    scales: {
+                        xAxes: [{
+                                display: true,
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Hour'
+                                }
+                            }],
+                        yAxes: [{
+                                display: true,
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: 'Value'
+                                }
+                            }]
+                    }
+                }
+            }
+        }
 
         QChartJs {
-               id: chart_line
-               width: chart_width
-               height: chart_height
-               chartType: ChartTypes.QChartJSTypes.LINE
-               chartData: ChartsData.ChartLineData
-               animation: true
-               chartAnimationEasing: Easing.InOutElastic;
-               chartAnimationDuration: 2000;
+            id: chart_temp
+            width: chart_width
+            visible: false
+            height: chart_height
+            chartType: ChartTypes.QChartJSTypes.LINE
+            chartData: ChartsData.tempChartData
+            animation: true
+            //               chartOptions: ChartsData.Options
+            chartAnimationEasing: Easing.InOutElastic;
+            chartAnimationDuration: 2000;
+        }
+
+        QChartJs {
+            id: chart_pm10
+            width: chart_width
+            visible: false
+            height: chart_height
+            chartType: ChartTypes.QChartJSTypes.LINE
+            chartData: ChartsData.pm10ChartData
+            animation: true
+            //               chartOptions: ChartsData.Options
+            chartAnimationEasing: Easing.InOutElastic;
+            chartAnimationDuration: 2000;
+        }
+
+        QChartJs {
+            id: chart_pm25
+            width: chart_width
+            visible: false
+            height: chart_height
+            chartType: ChartTypes.QChartJSTypes.LINE
+            chartData: ChartsData.pm25ChartData
+            animation: true
+            //               chartOptions: ChartsData.Options
+            chartAnimationEasing: Easing.InOutElastic;
+            chartAnimationDuration: 2000;
+        }
+        QChartJs {
+            id: chart_cho2
+            width: chart_width
+            visible: false
+            height: chart_height
+            chartType: ChartTypes.QChartJSTypes.LINE
+            chartData: ChartsData.cho2ChartData
+            animation: true
+            chartAnimationEasing: Easing.InOutElastic;
+            chartAnimationDuration: 2000;
+        }
 
 
-           }
+        QChartJs {
+            id: chart_co
+            width: chart_width
+            visible: false
+            height: chart_height
+            chartType: ChartTypes.QChartJSTypes.LINE
+            chartData: ChartsData.coChartData
+            animation: true
+            chartAnimationEasing: Easing.InOutElastic;
+            chartAnimationDuration: 2000;
+        }
+
+        QChartJs {
+            id: chart_co2
+            width: chart_width
+            visible: false
+            height: chart_height
+            chartType: ChartTypes.QChartJSTypes.LINE
+            chartData: ChartsData.co2ChartData
+            animation: true
+            chartAnimationEasing: Easing.InOutElastic;
+            chartAnimationDuration: 2000;
+        }
+
+        QChartJs {
+            id: chart_hum
+            width: chart_width
+            visible: false
+            height: chart_height
+            chartType: ChartTypes.QChartJSTypes.LINE
+            chartData: ChartsData.humChartData
+            animation: true
+            chartAnimationEasing: Easing.InOutElastic;
+            chartAnimationDuration: 2000;
+        }
+
+        QChartJs {
+            id: chart_o3
+            width: chart_width
+            visible: false
+            height: chart_height
+            chartType: ChartTypes.QChartJSTypes.LINE
+            chartData: ChartsData.o3ChartData
+            animation: true
+            chartAnimationEasing: Easing.InOutElastic;
+            chartAnimationDuration: 2000;
+        }
+
+        QChartJs {
+            id: chart_no2
+            width: chart_width
+            visible: false
+            height: chart_height
+            chartType: ChartTypes.QChartJSTypes.LINE
+            chartData: ChartsData.no2ChartData
+            animation: true
+            chartAnimationEasing: Easing.InOutElastic;
+            chartAnimationDuration: 2000;
+        }
+
+
+    }
+
+    Row {
+        id: column
+        x: 10
+        y: 6
+        width: 1316
+        height: 51
+        spacing: 16
+
+        ComboBox {
+            id: cbx
+            width: 200
+            model: ["Last Month",
+                    "Last Two Months",
+                    "Last Three Months",
+                    "Last Six Months" ,
+                    "Last Year",
+                    "Whole Data"]
+            editable: false
+            focusPolicy: Qt.TabFocus
+            flat: false
+            currentIndex: 0
+            onCurrentValueChanged: {
+                console.log("changed: " + " " + cbx.currentIndex + " " + cbx.currentValue)
+//                air.get_index(cbx.currentIndex)
+            }
+        }
+
+        Button {
+            id: btn_save
+            text: qsTr("Save as excel (.xlsx)")
+            onClicked: {
+                air.get_index(cbx.currentIndex)
+            }
+        }
     }
 
     Component.onCompleted: {
 
-            var gases = air.gases
-
-            console.log(gases)
-
-
-            // set gas values
-            temperature.value = gases[9]
-            cO.value = gases[1] * 100
-            cH2O.value = gases[0] * 10
-            cO2.value = gases[2] - 3000
-            humidity.value = gases[3]
-            nO2.value = gases[4]
-            o3.value = gases[5]
-            pM_2_5.value = gases[9]
-            tVOC.value = gases[11]
-
-        console.log('\ntemperature: ' + temperature.value + '\nco:' + cO.value + '\ncho2: ' + cH2O.value, '\nco2: ' + cO2.value + '\nHumidity: '+  humidity.value + '\nno2: ' +  nO2.value + '\no3: ' + o3.value + '\npm2.5: ' + pM_2_5.value)
-
+        var gases = air.gases
+        // set gas values
+        temperature.value = air.temps[0]
+        cO.value = air.cos[0]
+        cH2O.value = Math.ceil(air.cho2s[0] - 20)
+        cO2.value = air.co2s[0] - 4300
+        humidity.value = air.hums[0]
+        nO2.value = air.no2s[0]
+        o3.value = air.o3s[0]
+        pM_2_5.value = air.pm25s[0]
+        pm1_0.value = air.pm10s[0]
     }
 
 
@@ -228,6 +552,6 @@ Window {
 
 /*##^##
 Designer {
-    D{i:0;formeditorZoom:0.66}
+    D{i:0;formeditorZoom:0.5}
 }
 ##^##*/
