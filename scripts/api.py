@@ -47,7 +47,7 @@ def api(url):
 
 def get():
     # url 
-    data = api(url="http://159.65.115.118/api/data")
+    data = api(url="http://***.**.***.***/api/data")
     print(data)
     return data
     # print(data)
