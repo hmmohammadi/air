@@ -12,7 +12,7 @@ class Air(QObject):
         self.gas = Gas()
         self.gas.update()
 
-        self.stats = Stats(14)
+        self.stats = Stats(20)
         self.index = 0
         
     
@@ -55,7 +55,7 @@ class Air(QObject):
 #        pass
 
     def getCho2s(self):
-        return self.stats.tempreture
+        return self.stats.cho2
 #        pass
 
     
@@ -136,7 +136,10 @@ class Air(QObject):
     @pyqtSlot()
     def updateGas(self):
         self.gas.update()
-        self.setGas(self.gas.gaslist)
+        self.stats.pullStats(20)
+        self.stats.parse()
+#        self.setGas(self.gas.gaslist)
+        self.setGas()
     
     @pyqtSlot()
     def updateTemps(self):
@@ -151,42 +154,50 @@ class Air(QObject):
     @pyqtSlot()
     def updateCho2s(self):
         self.stats.pullStats(20)
-        self.setCho2s(self.stats.cho2)
+#        self.setCho2s(self.stats.cho2)
+        self.setCho2s()
 
     @pyqtSlot()
     def updateCos(self):
         self.stats.pullStats(20)
-        self.setCos(self.stats.co)
+#        self.setCos(self.stats.co)
+        self.setCos()
 
     @pyqtSlot()
     def updateHums(self):
         self.stats.pullStats(20)
-        self.setHums(self.stats.humidity)
+#        self.setHums(self.stats.humidity)
+        self.setHums()
 
     @pyqtSlot()
     def updateCo2s(self):
         self.stats.pullStats(20)
-        self.setCo2s(self.stats.co2)
+#        self.setCo2s(self.stats.co2)
+        self.setCo2s()
 
     @pyqtSlot()
     def updateNo2s(self):
         self.stats.pullStats(20)
-        self.setNo2s(self.stats.no2)
+#        self.setNo2s(self.stats.no2)
+        self.setNo2s()
 
     @pyqtSlot()
     def updatePm1_0s(self):
         self.stats.pullStats(20)
-        self.setPm1_0s(self.stats.pm1_0)
+#        self.setPm1_0s(self.stats.pm1_0)
+        self.setPm1_0s()
 
     @pyqtSlot()
     def updatePm2_5s(self):
         self.stats.pullStats(20)
-        self.setPm2_5s(self.stats.pm2_5)
+#        self.setPm2_5s(self.stats.pm2_5)
+        self.setPm2_5s()
 
     @pyqtSlot()
     def updateO3s(self):
         self.stats.pullStats(20)
-        self.setO3s(self.stats.o3)
+#        self.setO3s(self.stats.o3)
+        self.setO3s()
 
     ############# Property ###################
     
