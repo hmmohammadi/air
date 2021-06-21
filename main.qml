@@ -24,6 +24,8 @@ Window {
     property int chart_spacing: 20;
     property int text_height: 80;
     property int row_height: 8;
+    property int iter: 20
+    property var tempList: ChartsData.tempChartData
 
 
 
@@ -49,7 +51,7 @@ Window {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    console.log(air.cos)
+//                    console.log(air.cos)
                     chart_temp.visible = false
                     chart_co.visible = true
                     chart_co2.visible = false
@@ -68,14 +70,14 @@ Window {
         TargetGasGaugeForm {
             id: cH2O
             unit: "mg/m3"
-            targetGasName: "cH2O"
+            targetGasName: qsTr("CH<sub>2</sub>O")
             targetGaz.maxValue: 6.250
             targetGaz.dialWidth: 6
             value: 0 //feeder.value + 50
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    console.log(air.cho2s)
+//                    console.log(air.cho2s)
                     chart_temp.visible = false
                     chart_co.visible = false
                     chart_co2.visible = false
@@ -93,7 +95,7 @@ Window {
         TargetGasGaugeForm {
             id: cO2
             unit: "ppm"
-            targetGasName: "cO2"
+            targetGasName: "cO<sub>2</sub>"
             targetGaz.maxValue: 5000 //5000
             targetGaz.dialWidth: 6
             value: 0 //feeder.value + 90
@@ -101,7 +103,7 @@ Window {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    console.log(air.co2s)
+//                    console.log(air.co2s)
                     chart_temp.visible = false
                     chart_co.visible = false
                     chart_co2.visible = true
@@ -126,7 +128,7 @@ Window {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    console.log(air.hums)
+//                    console.log(air.hums)
                     chart_temp.visible = false
                     chart_co.visible = false
                     chart_co2.visible = false
@@ -144,7 +146,7 @@ Window {
         TargetGasGaugeForm {
             id: nO2
             unit: "ppm"
-            targetGasName: "nO2"
+            targetGasName: "nO<sub>2</sub>"
             targetGaz.maxValue: 10  // set the min value to 0.1
             targetGaz.minValue: 0.1
             targetGaz.dialWidth: 6
@@ -152,7 +154,7 @@ Window {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    console.log(air.no2s)
+//                    console.log(air.no2s)
                     chart_temp.visible = false
                     chart_co.visible = false
                     chart_co2.visible = false
@@ -178,7 +180,7 @@ Window {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    console.log(air.pm10s)
+//                    console.log(air.pm10s)
                     //                    chart_line.chartData = ChartsData.pm10ChartData
                     chart_temp.visible = false
                     chart_co.visible = false
@@ -197,14 +199,14 @@ Window {
         TargetGasGaugeForm {
             id: o3
             unit: "ppm"
-            targetGasName: "o3"
+            targetGasName: "o<sub>3</sub>"
             targetGaz.maxValue: 10
             targetGaz.dialWidth: 6
             value: 0 //feeder.value
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    console.log(air.o3s)
+//                    console.log(air.o3s)
                     chart_temp.visible = false
                     chart_co.visible = false
                     chart_co2.visible = false
@@ -281,13 +283,19 @@ Window {
         ///////////////////////////////  Charts ///////////////////////////////////////////
         Chart {
             id: charts
-            width: chart_width
+            width: chart_width //500 //chart_width
             visible: true
             height: chart_height
             chartType: 'line'
             chartData: { return {
                     labels:  ChartsData.show('time'),
                     datasets: [{
+                            label: 'Co2',
+                            fill: false,
+                            backgroundColor:  "rgba(244,178,164,255)",
+                            borderColor: 'rgba(244,178,164,255)',
+                            data: air.co2s,
+                        },{
                             label: 'Temprature',
                             fill: false,
                             backgroundColor:  "rgba(220,220,220,0.2)",
@@ -302,8 +310,8 @@ Window {
                             data: air.o3s,
                         }, {
                             label: 'PM2_5',
-                            backgroundColor:  "rgb(31, 141, 237)",
-                            borderColor:  "rgb(31, 141, 237)",
+                            backgroundColor:  "rgb(151, 243, 126)",
+                            borderColor:  "rgb(151, 243, 126)",
                             data: air.pm25s,
                             fill: false,
                         }, {
@@ -331,8 +339,8 @@ Window {
                         , {
                             label: 'MP1.0',
                             fill: false,
-                            backgroundColor: "rgb(66, 133, 244)",
-                            borderColor: "rgb(66, 133, 244)",
+                            backgroundColor: "rgba(248, 248, 39, 255)",
+                            borderColor: "rgba(248, 248, 39, 255)",
                             //                            borderDash: [5, 5],
                             data: air.pm10s,
                         }, {
@@ -388,11 +396,12 @@ Window {
             visible: false
             height: chart_height
             chartType: ChartTypes.QChartJSTypes.LINE
-            chartData: ChartsData.tempChartData
+            chartData: tempList
             animation: true
             //               chartOptions: ChartsData.Options
             chartAnimationEasing: Easing.InOutElastic;
             chartAnimationDuration: 2000;
+
         }
 
         QChartJs {
@@ -455,6 +464,10 @@ Window {
             animation: true
             chartAnimationEasing: Easing.InOutElastic;
             chartAnimationDuration: 2000;
+
+
+
+
         }
 
         QChartJs {
@@ -518,7 +531,7 @@ Window {
             flat: false
             currentIndex: 0
             onCurrentValueChanged: {
-                console.log("changed: " + " " + cbx.currentIndex + " " + cbx.currentValue)
+//                console.log("changed: " + " " + cbx.currentIndex + " " + cbx.currentValue)
 //                air.get_index(cbx.currentIndex)
             }
         }
@@ -530,21 +543,69 @@ Window {
                 air.get_index(cbx.currentIndex)
             }
         }
+
+        Button {
+            id: btn_chart_gas
+            text: qsTr("Show all charts")
+            onClicked: {
+//                console.log("basildi")
+                chart_temp.visible = false
+                chart_co.visible = false
+                chart_co2.visible = false
+                chart_pm10.visible = false
+                chart_hum.visible = false
+                chart_pm25.visible = false
+                chart_o3.visible = false
+                chart_no2.visible = false
+                chart_cho2.visible = false
+                charts.visible = true
+            }
+        }
     }
 
     Component.onCompleted: {
 
-        var gases = air.gases
+//        var gases = air.gases
         // set gas values
         temperature.value = air.temps[0]
         cO.value = air.cos[0]
-        cH2O.value = Math.ceil(air.cho2s[0] - 20)
-        cO2.value = air.co2s[0] - 4300
+        cH2O.value = air.cho2s[0] //Math.ceil(air.cho2s[0] - 20)
+        cO2.value = air.co2s[0] //air.co2s[0] - 4300
         humidity.value = air.hums[0]
         nO2.value = air.no2s[0]
         o3.value = air.o3s[0]
         pM_2_5.value = air.pm25s[0]
         pm1_0.value = air.pm10s[0]
+    }
+
+    Timer
+    {
+        interval: 1000; running: true; repeat: true
+        onTriggered: {
+            air.updateGas()
+            temperature.value = air.temps[0]
+            cO.value = air.cos[0]
+            cH2O.value = air.cho2s[0] //Math.ceil(air.cho2s[0] - 20)
+            cO2.value = air.co2s[0] //air.co2s[0] - 4300
+            humidity.value = air.hums[0]
+            nO2.value = air.no2s[0]
+            o3.value = air.o3s[0]
+            pM_2_5.value = air.pm25s[0]
+            pm1_0.value = air.pm10s[0]
+
+            tempList = ChartsData.updateTemp(iter)
+            chart_temp.chartRenderHandler = false
+            iter = iter + 1;
+//            chart_temp.chartData = tempList
+            console.log('tempList-> ' + tempList.datasets[0].data)
+            chart_temp.update()
+            console.log('tempList-> ' + chart_temp.chartData.datasets[0].data)
+//            chart_temp.visible = !(chart_temp.visible)
+            console.log("Guncellendi .... !!! ", iter)
+
+
+
+        }
     }
 
 
